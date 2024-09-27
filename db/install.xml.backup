@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMLDB PATH="mod/vocabpractice" VERSION="2024091900" COMMENT="Vocabulary Practice plugin">
+  <TABLES>
+    <!-- Main vocabpractice table -->
+    <TABLE NAME="vocabpractice" COMMENT="Vocabulary Practice Instances">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="varchar" LENGTH="255" NOTNULL="true" COMMENT="Instance Name"/>
+        <FIELD NAME="intro" TYPE="text" NOTNULL="false" COMMENT="Description"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" COMMENT="Description format"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="Time created"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="Time modified"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <!-- vocabpractice_entries table for contexts and target words -->
+    <TABLE NAME="vocabpractice_entries" COMMENT="Entries for Vocabulary Practice">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="context" TYPE="text" NOTNULL="false" COMMENT="Context for the target word"/>
+        <FIELD NAME="target_word" TYPE="varchar" LENGTH="255" NOTNULL="false" COMMENT="Target word in the context"/>
+        <FIELD NAME="item_id" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="Item ID reference"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    
+    <!-- vocabpractice_items table for vocabulary items -->
+    <TABLE NAME="vocabpractice_items" COMMENT="Vocabulary Items Metadata">
+      <FIELDS>
+        <FIELD NAME="item_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Primary item identifier"/>
+        <FIELD NAME="item" TYPE="varchar" LENGTH="255" NOTNULL="true" COMMENT="Vocabulary item"/>
+        <FIELD NAME="pos" TYPE="varchar" LENGTH="50" NOTNULL="false" COMMENT="Part of Speech"/>
+        <FIELD NAME="translation" TYPE="varchar" LENGTH="255" NOTNULL="false" COMMENT="Translation of the item"/>
+        <FIELD NAME="lesson_title" TYPE="varchar" LENGTH="255" NOTNULL="false" COMMENT="Lesson title"/>
+        <FIELD NAME="reading_or_listening" TYPE="varchar" LENGTH="50" NOTNULL="false" COMMENT="Reading or listening context"/>
+        <FIELD NAME="course_code" TYPE="varchar" LENGTH="50" NOTNULL="false" COMMENT="Course code"/>
+        <FIELD NAME="cefr_level" TYPE="varchar" LENGTH="10" NOTNULL="false" COMMENT="CEFR level"/>
+        <FIELD NAME="domain" TYPE="varchar" LENGTH="50" NOTNULL="false" COMMENT="Domain of the vocabulary"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="item_id"/>
+      </KEYS>
+    </TABLE>
+    
+    <!-- vocabpractice_user_progress table for tracking user progress on items -->
+    <TABLE NAME="vocabpractice_user_progress" COMMENT="Tracks user progress for each vocabulary item">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="User ID"/>
+        <FIELD NAME="item_id" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="Item ID reference"/>
+        <FIELD NAME="status" TYPE="enum('Not started','Under Acquisition','Acquired')" NOTNULL="true" DEFAULT="Not started" COMMENT="Current status of the item"/>
+        <FIELD NAME="details" TYPE="varchar" LENGTH="255" NOTNULL="false" DEFAULT="N/A" COMMENT="Additional details"/>
+        <FIELD NAME="last_seen" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" COMMENT="Timestamp when the item was last seen"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="user_id_item_id" TYPE="unique" FIELDS="user_id,item_id"/>
+      </KEYS>
+    </TABLE>
+
+    <!-- vocabpractice_user_sessions table for tracking user sessions -->
+    <TABLE NAME="vocabpractice_user_sessions" COMMENT="Tracks the number of sessions completed by each user">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="User ID"/>
+        <FIELD NAME="sessions_completed" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Number of sessions completed by the user"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
+
