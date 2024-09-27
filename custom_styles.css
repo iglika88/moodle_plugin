@@ -1,0 +1,39 @@
+.container {
+    padding: 20px;
+    min-height: 70vh; /* Ensures a minimum height for the container */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between header/content and footer */
+}
+
+.text-center img {
+    margin-bottom: 20px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.content-area {
+    margin-top: 30px;
+    flex-grow: 1; /* Allows the content area to expand and take up available space */
+    overflow-y: auto; /* Adds a scrollbar if the content overflows */
+}
+
+footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Optional: Set a consistent height for the entire page */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
